@@ -26,17 +26,25 @@ export default class Slider {
     }
 
     showPrev() {
-        this.currentSlideIndex--
         const slides = this.el.querySelectorAll(".slide")
-        if (this.currentSlideIndex < 0) this.currentSlideIndex = slides.length - 1
-        const next = slides[this.currentSlideIndex]
-        next.scrollIntoView({ behavior: "smooth" })
+        if (this.currentSlideIndex == 0) {
+            slides[0].parentElement.prepend(slides[slides.length - 1])
+            slides[1].scrollIntoView()
+        } else {
+            this.currentSlideIndex--
+        }
+        const prev = slides[this.currentSlideIndex]
+        prev.scrollIntoView({ behavior: "smooth" })
     }
 
     showNext() {
-        this.currentSlideIndex++
         const slides = this.el.querySelectorAll(".slide")
-        if (this.currentSlideIndex == slides.length) this.currentSlideIndex = 0
+        if (this.currentSlideIndex < slides.length - 1) {
+            this.currentSlideIndex++
+        } else {
+            slides[0].parentElement.append(slides[0])
+            slides[slides.length - 2].scrollIntoView()
+        }
         const next = slides[this.currentSlideIndex]
         next.scrollIntoView({ behavior: "smooth" })
     }
